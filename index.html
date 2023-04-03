@@ -114,12 +114,39 @@
     
     ]
 
-    //Search
+    //Search Bar Functionality
     $('#search-input').on('keyup', function() {
         var value = $(this).val()
-        console.log('Value')
+
+        var data = customerSearch(value, customerArray)
+        custTable(data)
 
     })
+
+    
+    function customerSearch(value, data) {
+        var filteredData = []
+
+        for (let i=0; i< data.length; i++) {
+            for (let j=0; j< data[i].Pets.length; j++) {
+
+                value = value.toLowerCase()
+                var petNameOrType =  data[i].Pets[j].type.toLowerCase() + " " + data[i].Pets[j].Name.toLowerCase();
+                console.log(petNameOrType);
+
+            if ( petNameOrType.includes(value)) {
+                filteredData.push(data[i])
+            }
+
+            }
+            
+
+        }
+
+
+        return filteredData
+
+    }
 
     //Sorting Functinonality
     $('th').on( 'click', function() {
@@ -141,19 +168,6 @@
 
         }
 
-        else if ( column == "Pets") {
-
-            if (order == "desc") {
-                $(this).data('order', "asc")
-                customerArray = customerArray.sort((a,b) => new Date(a[column]) > new Date(b[column]) ? 1 : -1)
-            }
-            else {
-            $(this).data('order', "desc")
-            customerArray = customerArray.sort((a,b) => new Date(a[column]) < new Date(b[column]) ? 1 : -1)   
-            }
-
-
-        }
 
         else {
             //under
@@ -189,7 +203,7 @@
   
         var tableB = document.getElementById('tableBody')
 
-    tableB.innerHTML = ""
+        tableB.innerHTML = ""
 
     let custPets = "";
     for (let i=0; i< data.length; i++) {
@@ -197,8 +211,9 @@
       if ( data[i].FavoriteColor == null) {
         data[i].FavoriteColor = "No Favorite Color";
       }
-      if (data[i].Pets == null) {
-        data[i].Pets = "No Pets";
+      if (data[i].Pets === undefined) {
+          data[i].Pets = "0";
+    
         
       }
 
@@ -206,24 +221,33 @@
       let custPets="";
       for (let j=0; j< customerArray[i].Pets.length; j++) {
         let pet = customerArray[i].Pets[j]
-        custPets += pet.type + ": " + pet.Name;
+        if (data[i].Pets != "0") {
+          custPets += pet.type + ": " + pet.Name;
+        }
+        else {
+          custPets = "No Pets"
+        }
+        
+        
+      
+        
 
         if (j != customerArray[i].Pets.length - 1) {
             custPets += "<br>";
         }
 
+ 
+        
         //back ticks allow us to write code without having to concatenate
         //building a table row
         var row = `<tr>
                         <td> ${data[i].Name}  </td>
                         <td> ${data[i].DoB}  </td>
                         <td> ${data[i].FavoriteColor}  </td>
-                        <td> ${custPets}  </td>
+                        <td> ${custPets} </td>
                     
     
                         <tr>`
-
-            
 
 
       }
