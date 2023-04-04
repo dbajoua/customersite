@@ -15,6 +15,8 @@
     }
 </style>
 
+
+
 <!--Search Bar-->
 <div class="row"> 
     <div class="col">
@@ -120,36 +122,41 @@
 
         var data = customerSearch(value, customerArray)
        
-        custTable(data)
+       // custTable(data)
 
     })
 
-  //  custTable(customerArray)
+    custTable(customerArray)
+
+    
+    
 
 
-  
 
-
-
-
-/*
  //originial
+ 
     function customerSearch(value, data) {
-        var filteredData = []
+      //  var filteredData = []
 
         
+          let petList = ""
           for (let i=0; i< data.length; i++) {
               if (data[i].hasOwnProperty("Pets") && data[i].Pets !== undefined) {
                  for (let j=0; j< data[i].Pets.length; j++) {
                      if (data[i].Pets[j].hasOwnProperty("type") && data[i].Pets[j].hasOwnProperty("Name")) {
                         value = value.toLowerCase()
                         var petNameOrType =  data[i].Pets[j].type.toLowerCase() + " " + data[i].Pets[j].Name.toLowerCase();
-                        console.log(data[i].Name + " has " + petNameOrType);
+                   //     console.log(data[i].Name + " has " + petNameOrType);
+                        
 
-               
+        
              
                           if (petNameOrType.includes(value)) {
-                            filteredData.push(data[i])
+                            //filteredData.push(data[i])
+                            console.log(data[i].Name + " HAS " + petNameOrType)
+                            petList += "The petlist: " + data[i].Name + " HAS " + petNameOrType
+                            console.log(petList)
+                            
                           }    
 
 
@@ -164,11 +171,11 @@
       
         }
 
-        return filteredData
+        //return filteredData
       
     }
   
-*/
+
   
 
 
