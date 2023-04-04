@@ -119,34 +119,61 @@
         var value = $(this).val()
 
         var data = customerSearch(value, customerArray)
+       
         custTable(data)
 
     })
 
-    
+  //  custTable(customerArray)
+
+
+  
+
+
+
+
+/*
+ //originial
     function customerSearch(value, data) {
         var filteredData = []
 
-        for (let i=0; i< data.length; i++) {
-            for (let j=0; j< data[i].Pets.length; j++) {
+        
+          for (let i=0; i< data.length; i++) {
+              if (data[i].hasOwnProperty("Pets") && data[i].Pets !== undefined) {
+                 for (let j=0; j< data[i].Pets.length; j++) {
+                     if (data[i].Pets[j].hasOwnProperty("type") && data[i].Pets[j].hasOwnProperty("Name")) {
+                        value = value.toLowerCase()
+                        var petNameOrType =  data[i].Pets[j].type.toLowerCase() + " " + data[i].Pets[j].Name.toLowerCase();
+                        console.log(data[i].Name + " has " + petNameOrType);
 
-                value = value.toLowerCase()
-                var petNameOrType =  data[i].Pets[j].type.toLowerCase() + " " + data[i].Pets[j].Name.toLowerCase();
-                console.log(petNameOrType);
+               
+             
+                          if (petNameOrType.includes(value)) {
+                            filteredData.push(data[i])
+                          }    
 
-            if ( petNameOrType.includes(value)) {
-                filteredData.push(data[i])
-            }
 
-            }
+                       }
+
+                }
+           
+           
             
 
+              }
+      
         }
 
-
         return filteredData
-
+      
     }
+  
+*/
+  
+
+
+
+
 
     //Sorting Functinonality
     $('th').on( 'click', function() {
@@ -165,6 +192,26 @@
             $(this).data('order', "desc")
             customerArray = customerArray.sort((a,b) => new Date(a[column]) < new Date(b[column]) ? 1 : -1)   
             }
+
+        }
+        else if (column == "Pets") {
+              customerArray.sort(function(a, b) {
+              if (a.Pets == undefined || a.Pets.length == 0) return 1;
+              if (b.Pets == undefined || b.Pets.length == 0) return -1;
+              if (a.Pets && a.Pets.length > 0 && a.Pets[0].type && b.Pets && b.Pets.length > 0 && b.Pets[0].type) {
+                var petA = a.Pets[0].type.toLowerCase() + ' ' + a.Pets[0].Name.toLowerCase();
+                var petB = b.Pets[0].type.toLowerCase() + ' ' + b.Pets[0].Name.toLowerCase();
+                return petA.localeCompare(petB);
+
+              }
+              
+              });
+              if (order == "desc") {
+                  customerArray.reverse();
+                  $(this).data('order', "asc")
+              } else {
+                  $(this).data('order', "desc")
+              }
 
         }
 
