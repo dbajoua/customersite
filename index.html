@@ -13,6 +13,9 @@
         background-color: gray;
         color: white;
     }
+    .label {
+      font-size: large;
+    }
 </style>
 
 
@@ -21,12 +24,15 @@
 <div class="row"> 
     <div class="col">
         <div class="card card-body">
-
+            <label for="search-input">Search by Pet Name or Pet Type:</label>
             <input id="search-input" class="form-control" type="text">
 
         </div>
     </div>
 </div>
+
+<!-- Display Pet List -->
+<div id="petListDiv"></div>
 
 
 <!-- Table to display customer data  -->
@@ -150,14 +156,20 @@
                         
 
         
-             
+
                           if (petNameOrType.includes(value)) {
                             //filteredData.push(data[i])
                             console.log(data[i].Name + " HAS " + petNameOrType)
-                            petList += "The petlist: " + data[i].Name + " HAS " + petNameOrType
+                            petList += data[i].Name + " has a " + petNameOrType + ". "
                             console.log(petList)
+                            var listOfPets = document.getElementById('petListDiv')
                             
-                          }    
+                            listOfPets.innerHTML = petList
+                            
+                          }
+                        
+                        
+                           
 
 
                        }
